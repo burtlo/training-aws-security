@@ -1,0 +1,7 @@
+---
+lockfile_version: 1
+depends:
+- name: inspec-aws
+  resolved_source:
+    path: "/Users/franklinwebber/inspec/inspec-aws"
+  version_constraints: "[]"
