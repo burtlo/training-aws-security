@@ -43,8 +43,7 @@ end
 
 describe aws_ec2_security_group(id: 'sg-b88c6dcf') do
   it { should exist }
-  its('inbound.rules') { should permit({ protocol: :tcp, port: 22, source: '0.0.0.0/0' })
-  }
+  its('inbound.rules') { should permit({ protocol: :tcp, port: 22, source: '0.0.0.0/0' }) }
   its('outbound.rules') { should permit_all_traffic }
 end
 
