@@ -33,11 +33,11 @@ control "aws-1" do
   #
   # @note https://github.com/chef/inspec-aws/issues/225
   # @note They only work because I am using my fork of the code
-  describe aws_ec2_instance('i-0d46cd56fa5bda893') do
-    its(:tags) { should have_tag(Name: 'jhnftz-inspec-lab-exam-env') }
-    its(:tags) { should include(Name: 'jhnftz-inspec-lab-exam-env') }
-    it { should have_tag(Name: 'jhnftz-inspec-lab-exam-env') }
-  end
+  # describe aws_ec2_instance('i-0d46cd56fa5bda893') do
+  #   its(:tags) { should have_tag(Name: 'jhnftz-inspec-lab-exam-env') }
+  #   its(:tags) { should include(Name: 'jhnftz-inspec-lab-exam-env') }
+  #   it { should have_tag(Name: 'jhnftz-inspec-lab-exam-env') }
+  # end
 
   # @note another idea on how tags could be verified
   # describe aws_ec2_instance('i-0d46cd56fa5bda893').tags do
@@ -57,13 +57,13 @@ control "aws-1" do
   #   its(:security_groups) { should cmp( id: 'sg-b88c6dcf', name: 'launch-wizard-106' ) }
   # end
 
-  describe aws_ec2_instance('i-0d46cd56fa5bda893') do
-    # @note this fails because the `aws_security_group` resources/helper_method is not defined in this scope.
-    # its(:security_groups) { should include(aws_security_group('sg-b88c6dcf')) }
-
-    its(:security_groups) { should have_group(id: 'sg-b88c6dcf') }
-    its(:security_groups) { should have_group(name: 'launch-wizard-106') }
-  end
+  # describe aws_ec2_instance('i-0d46cd56fa5bda893') do
+  #   # @note this fails because the `aws_security_group` resources/helper_method is not defined in this scope.
+  #   # its(:security_groups) { should include(aws_security_group('sg-b88c6dcf')) }
+  #
+  #   its(:security_groups) { should have_group(id: 'sg-b88c6dcf') }
+  #   its(:security_groups) { should have_group(name: 'launch-wizard-106') }
+  # end
 
   # describe aws_ec2_instance('i-0d46cd56fa5bda893').security_groups do
   #   it { should have_group(id: 'sg-b88c6dcf') }
