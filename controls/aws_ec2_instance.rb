@@ -1,15 +1,14 @@
 # encoding: utf-8
 # copyright: 2017, The Authors
 
-
 control "aws-1" do
   impact 0.7
   title 'Checks the machine is running'
 
-  describe aws_ec2_instance('i-0d46cd56fa5bda893') do
+  describe aws_ec2_instance('i-0859e3aeefc45cf6a') do
     it { should be_running }
-    its(:public_ip_address) { should eq '34.234.67.126' }
     its(:image_id) { should eq 'ami-d5d7ffae' }
+    # its(:public_ip_address) { should eq '34.234.67.126' }
     # %w{
     #   public_ip_address private_ip_address key_name private_dns_name
     #   public_dns_name subnet_id architecture root_device_type
@@ -24,9 +23,9 @@ control "aws-1" do
   # SECTION: aws_ec2_instance#tags
   #
 
-  describe aws_ec2_instance('i-0d46cd56fa5bda893') do
-    its(:tags) { should include({ :key => 'Name', :value => 'jhnftz-inspec-lab-exam-env' }) }
-  end
+  # describe aws_ec2_instance('i-0d46cd56fa5bda893') do
+  #   its(:tags) { should include({ :key => 'Name', :value => 'jhnftz-inspec-lab-exam-env' }) }
+  # end
 
   # These are some my proposed ways in which someone
   # should test for tags on an instance

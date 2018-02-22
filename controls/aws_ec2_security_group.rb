@@ -1,51 +1,50 @@
-RSpec::Matchers.define :permit do |expected|
-  match do |rules|
-    rules.find do |rule|
-      # TODO: port for singular and port range
-      # TODO: source for singular and source for range
-      expected[:port] == rule.port &&
-      expected[:protocol].to_s == rule.protocol.to_s &&
-      expected[:source] == rule.source
-      # TODO: optionally match description
-    end
-  end
+# RSpec::Matchers.define :permit do |expected|
+#   match do |rules|
+#     rules.find do |rule|
+#       # TODO: port for singular and port range
+#       # TODO: source for singular and source for range
+#       expected[:port] == rule.port &&
+#       expected[:protocol].to_s == rule.protocol.to_s &&
+#       expected[:source] == rule.source
+#       # TODO: optionally match description
+#     end
+#   end
+#
+#   description do
+#     # TODO: port for singular and port range
+#     # TODO: source for singular and source for range
+#     "permit #{expected[:protocol].upcase} traffic on port #{expected[:port]} from source #{expected[:source]}"
+#   end
+# end
+#
+# # TODO: Create a Matcher class of the above and make this a special version of it.
+# RSpec::Matchers.define :permit_all_traffic do |expected|
+#   match do |rules|
+#     rules.find do |rule|
+#       # TODO: port for singular and port range
+#       # TODO: source for singular and source for range
+#       # @note A nil is in the example when it is set to all traffic
+#       rule.port.nil? &&
+#       # @note a -1 means all types of protocols
+#       '-1' == rule.protocol.to_s &&
+#       '0.0.0.0/0' == rule.source
+#       # TODO: optionally match description
+#     end
+#   end
+#
+#   description do
+#     # TODO: port for singular and port range
+#     # TODO: source for singular and source for range
+#     "permit ALL traffic on ALL port from ALL sources"
+#   end
+# end
+#
 
-  description do
-    # TODO: port for singular and port range
-    # TODO: source for singular and source for range
-    "permit #{expected[:protocol].upcase} traffic on port #{expected[:port]} from source #{expected[:source]}"
-  end
-end
-
-# TODO: Create a Matcher class of the above and make this a special version of it.
-RSpec::Matchers.define :permit_all_traffic do |expected|
-  match do |rules|
-    rules.find do |rule|
-      # TODO: port for singular and port range
-      # TODO: source for singular and source for range
-      # @note A nil is in the example when it is set to all traffic
-      rule.port.nil? &&
-      # @note a -1 means all types of protocols
-      '-1' == rule.protocol.to_s &&
-      '0.0.0.0/0' == rule.source
-      # TODO: optionally match description
-    end
-  end
-
-  description do
-    # TODO: port for singular and port range
-    # TODO: source for singular and source for range
-    "permit ALL traffic on ALL port from ALL sources"
-  end
-end
-
-
-
-describe aws_ec2_security_group(id: 'sg-b88c6dcf') do
-  it { should exist }
-  its('inbound.rules') { should permit({ protocol: :tcp, port: 22, source: '0.0.0.0/0' }) }
-  its('outbound.rules') { should permit_all_traffic }
-end
+# describe aws_ec2_security_group(id: 'sg-b88c6dcf') do
+#   it { should exist }
+#   # its('inbound.rules') { should permit({ protocol: :tcp, port: 22, source: '0.0.0.0/0' }) }
+#   # its('outbound.rules') { should permit_all_traffic }
+# end
 
 # The data structure from the AWS Ruby client
 # ip_permissions=
