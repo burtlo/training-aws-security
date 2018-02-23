@@ -13,78 +13,133 @@ variable "aws_amis" {
   }
 }
 
-# When the process of spining up the platform is done report this data out to the command line. This is essential if you want to know what id was generated for this instance after it was created.
-output "ec2_instance_alpha" {
-  value = "${aws_instance.alpha.id}"
+variable "aws_availability_zone" {
+    # There were some errors about the subnet being created in an availability
+    # zone that did not have access to t1.micros.
+    default = "us-east-1a"
 }
 
+# webserver details
 
-# Create an aws_instance with the name 'alpha' using the AMI that is correct for the region and make it small one so that we aren't burning up all that delicious start up money.
-resource "aws_instance" "alpha" {
+output "ec2_instance.webserver.name" {
+  value = "${aws_instance.webserver.tags.Name}"
+}
+
+output "ec2_instance.webserver" {
+  value = "${aws_instance.webserver.id}"
+}
+
+output "ec2_instance.webserver.ami" {
+  value = "${aws_instance.webserver.ami}"
+}
+
+output "ec2_instance.webserver.instance_type" {
+  value = "${aws_instance.webserver.instance_type}"
+}
+
+output "ec2_instance.webserver.public_ip" {
+  value = "${aws_instance.webserver.public_ip}"
+}
+
+# database details
+
+output "ec2_instance.database.Name" {
+  value = "${aws_instance.database.tags.Name}"
+}
+
+output "ec2_instance.database" {
+  value = "${aws_instance.database.id}"
+}
+
+output "ec2_instance.database.ami" {
+  value = "${aws_instance.database.ami}"
+}
+
+output "ec2_instance.database.instance_type" {
+  value = "${aws_instance.database.instance_type}"
+}
+
+# networking details
+
+output "vpc.id" {
+  value = "${aws_vpc.default.id}"
+}
+
+output "subnet.public.id" {
+  value = "${aws_subnet.public.id}"
+}
+
+output "subnet.private.id" {
+  value = "${aws_subnet.private.id}"
+}
+
+output "security_group.web.id" {
+  value = "${aws_security_group.web.id}"
+}
+
+output "security_group.ssh.id" {
+  value = "${aws_security_group.ssh.id}"
+}
+
+output "route.internet_access.id" {
+  value = "${aws_route.internet_access.id}"
+}
+
+# Creation
+
+resource "aws_instance" "webserver" {
   ami           = "${lookup(var.aws_amis, var.aws_region)}"
   instance_type = "t1.micro"
-  security_groups = ["${aws_security_group.ssh_web.id}"]
-  subnet_id = "${aws_subnet.default.id}"
+  security_groups = ["${aws_security_group.ssh.id}", "${aws_security_group.web.id}"]
+  subnet_id = "${aws_subnet.public.id}"
+  availability_zone = "${var.aws_availability_zone}"
+  tags {
+    Name = "webserver"
+  }
 }
 
-# Create a VPC to launch our instances into
+resource "aws_instance" "database" {
+  ami           = "${lookup(var.aws_amis, var.aws_region)}"
+  instance_type = "t1.micro"
+  security_groups = ["${aws_security_group.ssh.id}"]
+  subnet_id = "${aws_subnet.private.id}"
+  availability_zone = "${var.aws_availability_zone}"
+  tags {
+    Name = "database"
+  }
+}
+
 resource "aws_vpc" "default" {
   cidr_block = "10.0.0.0/16"
 }
 
-# Create an internet gateway to give our subnet access to the outside world
 resource "aws_internet_gateway" "default" {
   vpc_id = "${aws_vpc.default.id}"
 }
 
-# Grant the VPC internet access on its main route table
 resource "aws_route" "internet_access" {
   route_table_id         = "${aws_vpc.default.main_route_table_id}"
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = "${aws_internet_gateway.default.id}"
 }
 
-# Create a subnet to launch our instances into
-resource "aws_subnet" "default" {
+resource "aws_subnet" "public" {
   vpc_id                  = "${aws_vpc.default.id}"
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
+  availability_zone = "${var.aws_availability_zone}"
 }
 
-# resource "aws_security_group" "web" {
-#   name        = "learn_chef_web"
-#   description = "Used in a terraform exercise"
-#   vpc_id      = "${aws_vpc.default.id}"
-#
-#   # HTTP access from anywhere
-#   ingress {
-#     from_port   = 80
-#     to_port     = 80
-#     protocol    = "tcp"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-#
-#   # outbound internet access
-#   egress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-# }
+resource "aws_subnet" "private" {
+  vpc_id                  = "${aws_vpc.default.id}"
+  cidr_block              = "10.0.100.0/24"
+  availability_zone = "${var.aws_availability_zone}"
+}
 
-resource "aws_security_group" "ssh_web" {
-  name        = "learn_chef_ssh_web"
+resource "aws_security_group" "web" {
+  name        = "learn_chef_web"
   description = "Used in a terraform exercise"
   vpc_id      = "${aws_vpc.default.id}"
-
-  # SSH access from anywhere
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 
   # HTTP access from the VPC
   ingress {
@@ -103,68 +158,24 @@ resource "aws_security_group" "ssh_web" {
   }
 }
 
+resource "aws_security_group" "ssh" {
+  name        = "learn_chef_ssh"
+  description = "Used in a terraform exercise"
+  vpc_id      = "${aws_vpc.default.id}"
 
-# Test for correct VPC config as a whole
-# Test for subnet config
-# Test for security group configs - ingress and egress rules
-# Test for proper network routing table (optional)
-# Test that each machine is in the right security group and subnet (you can show them how to find a machine by ID but also by name, the latter of which is more practical)
-# Test that each machine is the right image size, using the right AMI, in the expected region, etc.
-# An S3 bucket to store static assets uploaded by users for the correct permissions
+  # SSH access from anywhere
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
 
-# # Our default security group to access
-# # the instances over SSH and HTTP
-#
-# resource "aws_elb" "web" {
-#   name = "terraform-example-elb"
-#
-#   subnets         = ["${aws_subnet.default.id}"]
-#   security_groups = ["${aws_security_group.elb.id}"]
-#   instances       = ["${aws_instance.web.id}"]
-#
-#   listener {
-#     instance_port     = 80
-#     instance_protocol = "http"
-#     lb_port           = 80
-#     lb_protocol       = "http"
-#   }
-# }
-
-# resource "aws_instance" "web" {
-#   # The connection block tells our provisioner how to
-#   # communicate with the resource (instance)
-#   connection {
-#     # The default username for our AMI
-#     user = "ubuntu"
-#
-#     # The connection will use the local SSH agent for authentication.
-#   }
-#
-#   instance_type = "t2.micro"
-#
-#   # Lookup the correct AMI based on the region
-#   # we specified
-#   ami = "${lookup(var.aws_amis, var.aws_region)}"
-#
-#   # The name of our SSH keypair we created above.
-#   key_name = "${aws_key_pair.auth.id}"
-#
-#   # Our Security group to allow HTTP and SSH access
-#   vpc_security_group_ids = ["${aws_security_group.default.id}"]
-#
-#   # We're going to launch into the same subnet as our ELB. In a production
-#   # environment it's more common to have a separate private subnet for
-#   # backend instances.
-#   subnet_id = "${aws_subnet.default.id}"
-#
-#   # We run a remote provisioner on the instance after creating it.
-#   # In this case, we just install nginx and start it. By default,
-#   # this should be on port 80
-#   provisioner "remote-exec" {
-#     inline = [
-#       "sudo apt-get -y update",
-#       "sudo apt-get -y install nginx",
-#       "sudo service nginx start",
-#     ]
-#   }
-# }
+  # outbound internet access
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
