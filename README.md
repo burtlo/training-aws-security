@@ -68,179 +68,7 @@ Resource actions are indicated with the following symbols:
 
 Terraform will perform the following actions:
 
-  + aws_instance.database
-      id:                                    <computed>
-      ami:                                   "ami-d5d7ffae"
-      associate_public_ip_address:           <computed>
-      availability_zone:                     "us-east-1a"
-      ebs_block_device.#:                    <computed>
-      ephemeral_block_device.#:              <computed>
-      instance_state:                        <computed>
-      instance_type:                         "t1.micro"
-      ipv6_address_count:                    <computed>
-      ipv6_addresses.#:                      <computed>
-      key_name:                              <computed>
-      network_interface.#:                   <computed>
-      network_interface_id:                  <computed>
-      placement_group:                       <computed>
-      primary_network_interface_id:          <computed>
-      private_dns:                           <computed>
-      private_ip:                            <computed>
-      public_dns:                            <computed>
-      public_ip:                             <computed>
-      root_block_device.#:                   <computed>
-      security_groups.#:                     <computed>
-      source_dest_check:                     "true"
-      subnet_id:                             "${aws_subnet.private.id}"
-      tags.%:                                "1"
-      tags.Name:                             "datase"
-      tenancy:                               <computed>
-      volume_tags.%:                         <computed>
-      vpc_security_group_ids.#:              <computed>
-
-  + aws_instance.webserver
-      id:                                    <computed>
-      ami:                                   "ami-d5d7ffae"
-      associate_public_ip_address:           <computed>
-      availability_zone:                     "us-east-1a"
-      ebs_block_device.#:                    <computed>
-      ephemeral_block_device.#:              <computed>
-      instance_state:                        <computed>
-      instance_type:                         "t1.micro"
-      ipv6_address_count:                    <computed>
-      ipv6_addresses.#:                      <computed>
-      key_name:                              <computed>
-      network_interface.#:                   <computed>
-      network_interface_id:                  <computed>
-      placement_group:                       <computed>
-      primary_network_interface_id:          <computed>
-      private_dns:                           <computed>
-      private_ip:                            <computed>
-      public_dns:                            <computed>
-      public_ip:                             <computed>
-      root_block_device.#:                   <computed>
-      security_groups.#:                     <computed>
-      source_dest_check:                     "true"
-      subnet_id:                             "${aws_subnet.public.id}"
-      tags.%:                                "1"
-      tags.Name:                             "webserver"
-      tenancy:                               <computed>
-      volume_tags.%:                         <computed>
-      vpc_security_group_ids.#:              <computed>
-
-  + aws_internet_gateway.default
-      id:                                    <computed>
-      vpc_id:                                "${aws_vpc.default.id}"
-
-  + aws_route.internet_access
-      id:                                    <computed>
-      destination_cidr_block:                "0.0.0.0/0"
-      destination_prefix_list_id:            <computed>
-      egress_only_gateway_id:                <computed>
-      gateway_id:                            "${aws_internet_gateway.default.id}"
-      instance_id:                           <computed>
-      instance_owner_id:                     <computed>
-      nat_gateway_id:                        <computed>
-      network_interface_id:                  <computed>
-      origin:                                <computed>
-      route_table_id:                        "${aws_vpc.default.main_route_table_id}"
-      state:                                 <computed>
-
-  + aws_security_group.ssh
-      id:                                    <computed>
-      description:                           "Used in a terraform exercise"
-      egress.#:                              "1"
-      egress.482069346.cidr_blocks.#:        "1"
-      egress.482069346.cidr_blocks.0:        "0.0.0.0/0"
-      egress.482069346.description:          ""
-      egress.482069346.from_port:            "0"
-      egress.482069346.ipv6_cidr_blocks.#:   "0"
-      egress.482069346.prefix_list_ids.#:    "0"
-      egress.482069346.protocol:             "-1"
-      egress.482069346.security_groups.#:    "0"
-      egress.482069346.self:                 "false"
-      egress.482069346.to_port:              "0"
-      ingress.#:                             "1"
-      ingress.2541437006.cidr_blocks.#:      "1"
-      ingress.2541437006.cidr_blocks.0:      "0.0.0.0/0"
-      ingress.2541437006.description:        ""
-      ingress.2541437006.from_port:          "22"
-      ingress.2541437006.ipv6_cidr_blocks.#: "0"
-      ingress.2541437006.protocol:           "tcp"
-      ingress.2541437006.security_groups.#:  "0"
-      ingress.2541437006.self:               "false"
-      ingress.2541437006.to_port:            "22"
-      name:                                  "learn_chef_ssh"
-      owner_id:                              <computed>
-      revoke_rules_on_delete:                "false"
-      vpc_id:                                "${aws_vpc.default.id}"
-
-  + aws_security_group.web
-      id:                                    <computed>
-      description:                           "Used in a terraform exercise"
-      egress.#:                              "1"
-      egress.482069346.cidr_blocks.#:        "1"
-      egress.482069346.cidr_blocks.0:        "0.0.0.0/0"
-      egress.482069346.description:          ""
-      egress.482069346.from_port:            "0"
-      egress.482069346.ipv6_cidr_blocks.#:   "0"
-      egress.482069346.prefix_list_ids.#:    "0"
-      egress.482069346.protocol:             "-1"
-      egress.482069346.security_groups.#:    "0"
-      egress.482069346.self:                 "false"
-      egress.482069346.to_port:              "0"
-      ingress.#:                             "1"
-      ingress.2165049311.cidr_blocks.#:      "1"
-      ingress.2165049311.cidr_blocks.0:      "10.0.0.0/16"
-      ingress.2165049311.description:        ""
-      ingress.2165049311.from_port:          "80"
-      ingress.2165049311.ipv6_cidr_blocks.#: "0"
-      ingress.2165049311.protocol:           "tcp"
-      ingress.2165049311.security_groups.#:  "0"
-      ingress.2165049311.self:               "false"
-      ingress.2165049311.to_port:            "80"
-      name:                                  "learn_chef_web"
-      owner_id:                              <computed>
-      revoke_rules_on_delete:                "false"
-      vpc_id:                                "${aws_vpc.default.id}"
-
-  + aws_subnet.private
-      id:                                    <computed>
-      assign_ipv6_address_on_creation:       "false"
-      availability_zone:                     "us-east-1a"
-      cidr_block:                            "10.0.100.0/24"
-      ipv6_cidr_block:                       <computed>
-      ipv6_cidr_block_association_id:        <computed>
-      map_public_ip_on_launch:               "false"
-      vpc_id:                                "${aws_vpc.default.id}"
-
-  + aws_subnet.public
-      id:                                    <computed>
-      assign_ipv6_address_on_creation:       "false"
-      availability_zone:                     "us-east-1a"
-      cidr_block:                            "10.0.1.0/24"
-      ipv6_cidr_block:                       <computed>
-      ipv6_cidr_block_association_id:        <computed>
-      map_public_ip_on_launch:               "true"
-      vpc_id:                                "${aws_vpc.default.id}"
-
-  + aws_vpc.default
-      id:                                    <computed>
-      assign_generated_ipv6_cidr_block:      "false"
-      cidr_block:                            "10.0.0.0/16"
-      default_network_acl_id:                <computed>
-      default_route_table_id:                <computed>
-      default_security_group_id:             <computed>
-      dhcp_options_id:                       <computed>
-      enable_classiclink:                    <computed>
-      enable_classiclink_dns_support:        <computed>
-      enable_dns_hostnames:                  <computed>
-      enable_dns_support:                    "true"
-      instance_tenancy:                      <computed>
-      ipv6_association_id:                   <computed>
-      ipv6_cidr_block:                       <computed>
-      main_route_table_id:                   <computed>
-
+[...]
 
 Plan: 9 to add, 0 to change, 0 to destroy.
 
@@ -287,179 +115,7 @@ Resource actions are indicated with the following symbols:
 
 Terraform will perform the following actions:
 
-  + aws_instance.database
-      id:                                    <computed>
-      ami:                                   "ami-d5d7ffae"
-      associate_public_ip_address:           <computed>
-      availability_zone:                     "us-east-1a"
-      ebs_block_device.#:                    <computed>
-      ephemeral_block_device.#:              <computed>
-      instance_state:                        <computed>
-      instance_type:                         "t1.micro"
-      ipv6_address_count:                    <computed>
-      ipv6_addresses.#:                      <computed>
-      key_name:                              <computed>
-      network_interface.#:                   <computed>
-      network_interface_id:                  <computed>
-      placement_group:                       <computed>
-      primary_network_interface_id:          <computed>
-      private_dns:                           <computed>
-      private_ip:                            <computed>
-      public_dns:                            <computed>
-      public_ip:                             <computed>
-      root_block_device.#:                   <computed>
-      security_groups.#:                     <computed>
-      source_dest_check:                     "true"
-      subnet_id:                             "${aws_subnet.private.id}"
-      tags.%:                                "1"
-      tags.Name:                             "datase"
-      tenancy:                               <computed>
-      volume_tags.%:                         <computed>
-      vpc_security_group_ids.#:              <computed>
-
-  + aws_instance.webserver
-      id:                                    <computed>
-      ami:                                   "ami-d5d7ffae"
-      associate_public_ip_address:           <computed>
-      availability_zone:                     "us-east-1a"
-      ebs_block_device.#:                    <computed>
-      ephemeral_block_device.#:              <computed>
-      instance_state:                        <computed>
-      instance_type:                         "t1.micro"
-      ipv6_address_count:                    <computed>
-      ipv6_addresses.#:                      <computed>
-      key_name:                              <computed>
-      network_interface.#:                   <computed>
-      network_interface_id:                  <computed>
-      placement_group:                       <computed>
-      primary_network_interface_id:          <computed>
-      private_dns:                           <computed>
-      private_ip:                            <computed>
-      public_dns:                            <computed>
-      public_ip:                             <computed>
-      root_block_device.#:                   <computed>
-      security_groups.#:                     <computed>
-      source_dest_check:                     "true"
-      subnet_id:                             "${aws_subnet.public.id}"
-      tags.%:                                "1"
-      tags.Name:                             "webserver"
-      tenancy:                               <computed>
-      volume_tags.%:                         <computed>
-      vpc_security_group_ids.#:              <computed>
-
-  + aws_internet_gateway.default
-      id:                                    <computed>
-      vpc_id:                                "${aws_vpc.default.id}"
-
-  + aws_route.internet_access
-      id:                                    <computed>
-      destination_cidr_block:                "0.0.0.0/0"
-      destination_prefix_list_id:            <computed>
-      egress_only_gateway_id:                <computed>
-      gateway_id:                            "${aws_internet_gateway.default.id}"
-      instance_id:                           <computed>
-      instance_owner_id:                     <computed>
-      nat_gateway_id:                        <computed>
-      network_interface_id:                  <computed>
-      origin:                                <computed>
-      route_table_id:                        "${aws_vpc.default.main_route_table_id}"
-      state:                                 <computed>
-
-  + aws_security_group.ssh
-      id:                                    <computed>
-      description:                           "Used in a terraform exercise"
-      egress.#:                              "1"
-      egress.482069346.cidr_blocks.#:        "1"
-      egress.482069346.cidr_blocks.0:        "0.0.0.0/0"
-      egress.482069346.description:          ""
-      egress.482069346.from_port:            "0"
-      egress.482069346.ipv6_cidr_blocks.#:   "0"
-      egress.482069346.prefix_list_ids.#:    "0"
-      egress.482069346.protocol:             "-1"
-      egress.482069346.security_groups.#:    "0"
-      egress.482069346.self:                 "false"
-      egress.482069346.to_port:              "0"
-      ingress.#:                             "1"
-      ingress.2541437006.cidr_blocks.#:      "1"
-      ingress.2541437006.cidr_blocks.0:      "0.0.0.0/0"
-      ingress.2541437006.description:        ""
-      ingress.2541437006.from_port:          "22"
-      ingress.2541437006.ipv6_cidr_blocks.#: "0"
-      ingress.2541437006.protocol:           "tcp"
-      ingress.2541437006.security_groups.#:  "0"
-      ingress.2541437006.self:               "false"
-      ingress.2541437006.to_port:            "22"
-      name:                                  "learn_chef_ssh"
-      owner_id:                              <computed>
-      revoke_rules_on_delete:                "false"
-      vpc_id:                                "${aws_vpc.default.id}"
-
-  + aws_security_group.web
-      id:                                    <computed>
-      description:                           "Used in a terraform exercise"
-      egress.#:                              "1"
-      egress.482069346.cidr_blocks.#:        "1"
-      egress.482069346.cidr_blocks.0:        "0.0.0.0/0"
-      egress.482069346.description:          ""
-      egress.482069346.from_port:            "0"
-      egress.482069346.ipv6_cidr_blocks.#:   "0"
-      egress.482069346.prefix_list_ids.#:    "0"
-      egress.482069346.protocol:             "-1"
-      egress.482069346.security_groups.#:    "0"
-      egress.482069346.self:                 "false"
-      egress.482069346.to_port:              "0"
-      ingress.#:                             "1"
-      ingress.2165049311.cidr_blocks.#:      "1"
-      ingress.2165049311.cidr_blocks.0:      "10.0.0.0/16"
-      ingress.2165049311.description:        ""
-      ingress.2165049311.from_port:          "80"
-      ingress.2165049311.ipv6_cidr_blocks.#: "0"
-      ingress.2165049311.protocol:           "tcp"
-      ingress.2165049311.security_groups.#:  "0"
-      ingress.2165049311.self:               "false"
-      ingress.2165049311.to_port:            "80"
-      name:                                  "learn_chef_web"
-      owner_id:                              <computed>
-      revoke_rules_on_delete:                "false"
-      vpc_id:                                "${aws_vpc.default.id}"
-
-  + aws_subnet.private
-      id:                                    <computed>
-      assign_ipv6_address_on_creation:       "false"
-      availability_zone:                     "us-east-1a"
-      cidr_block:                            "10.0.100.0/24"
-      ipv6_cidr_block:                       <computed>
-      ipv6_cidr_block_association_id:        <computed>
-      map_public_ip_on_launch:               "false"
-      vpc_id:                                "${aws_vpc.default.id}"
-
-  + aws_subnet.public
-      id:                                    <computed>
-      assign_ipv6_address_on_creation:       "false"
-      availability_zone:                     "us-east-1a"
-      cidr_block:                            "10.0.1.0/24"
-      ipv6_cidr_block:                       <computed>
-      ipv6_cidr_block_association_id:        <computed>
-      map_public_ip_on_launch:               "true"
-      vpc_id:                                "${aws_vpc.default.id}"
-
-  + aws_vpc.default
-      id:                                    <computed>
-      assign_generated_ipv6_cidr_block:      "false"
-      cidr_block:                            "10.0.0.0/16"
-      default_network_acl_id:                <computed>
-      default_route_table_id:                <computed>
-      default_security_group_id:             <computed>
-      dhcp_options_id:                       <computed>
-      enable_classiclink:                    <computed>
-      enable_classiclink_dns_support:        <computed>
-      enable_dns_hostnames:                  <computed>
-      enable_dns_support:                    "true"
-      instance_tenancy:                      <computed>
-      ipv6_association_id:                   <computed>
-      ipv6_cidr_block:                       <computed>
-      main_route_table_id:                   <computed>
-
+[...]
 
 Plan: 9 to add, 0 to change, 0 to destroy.
 
@@ -476,205 +132,68 @@ This output is similar to the output you saw when you ran the `plan` subcommand 
   Enter a value: yes
 
   aws_vpc.default: Creating...
-    assign_generated_ipv6_cidr_block: "" => "false"
-    cidr_block:                       "" => "10.0.0.0/16"
-    default_network_acl_id:           "" => "<computed>"
-    default_route_table_id:           "" => "<computed>"
-    default_security_group_id:        "" => "<computed>"
-    dhcp_options_id:                  "" => "<computed>"
-    enable_classiclink:               "" => "<computed>"
-    enable_classiclink_dns_support:   "" => "<computed>"
-    enable_dns_hostnames:             "" => "<computed>"
-    enable_dns_support:               "" => "true"
-    instance_tenancy:                 "" => "<computed>"
-    ipv6_association_id:              "" => "<computed>"
-    ipv6_cidr_block:                  "" => "<computed>"
-    main_route_table_id:              "" => "<computed>"
-  aws_vpc.default: Creation complete after 2s (ID: vpc-4e904735)
-  aws_internet_gateway.default: Creating...
-    vpc_id: "" => "vpc-4e904735"
-  aws_subnet.private: Creating...
-    assign_ipv6_address_on_creation: "" => "false"
-    availability_zone:               "" => "us-east-1a"
-    cidr_block:                      "" => "10.0.100.0/24"
-    ipv6_cidr_block:                 "" => "<computed>"
-    ipv6_cidr_block_association_id:  "" => "<computed>"
-    map_public_ip_on_launch:         "" => "false"
-    vpc_id:                          "" => "vpc-4e904735"
-  aws_subnet.public: Creating...
-    assign_ipv6_address_on_creation: "" => "false"
-    availability_zone:               "" => "us-east-1a"
-    cidr_block:                      "" => "10.0.1.0/24"
-    ipv6_cidr_block:                 "" => "<computed>"
-    ipv6_cidr_block_association_id:  "" => "<computed>"
-    map_public_ip_on_launch:         "" => "true"
-    vpc_id:                          "" => "vpc-4e904735"
-  aws_security_group.web: Creating...
-    description:                           "" => "Used in a terraform exercise"
-    egress.#:                              "" => "1"
-    egress.482069346.cidr_blocks.#:        "" => "1"
-    egress.482069346.cidr_blocks.0:        "" => "0.0.0.0/0"
-    egress.482069346.description:          "" => ""
-    egress.482069346.from_port:            "" => "0"
-    egress.482069346.ipv6_cidr_blocks.#:   "" => "0"
-    egress.482069346.prefix_list_ids.#:    "" => "0"
-    egress.482069346.protocol:             "" => "-1"
-    egress.482069346.security_groups.#:    "" => "0"
-    egress.482069346.self:                 "" => "false"
-    egress.482069346.to_port:              "" => "0"
-    ingress.#:                             "" => "1"
-    ingress.2165049311.cidr_blocks.#:      "" => "1"
-    ingress.2165049311.cidr_blocks.0:      "" => "10.0.0.0/16"
-    ingress.2165049311.description:        "" => ""
-    ingress.2165049311.from_port:          "" => "80"
-    ingress.2165049311.ipv6_cidr_blocks.#: "" => "0"
-    ingress.2165049311.protocol:           "" => "tcp"
-    ingress.2165049311.security_groups.#:  "" => "0"
-    ingress.2165049311.self:               "" => "false"
-    ingress.2165049311.to_port:            "" => "80"
-    name:                                  "" => "learn_chef_web"
-    owner_id:                              "" => "<computed>"
-    revoke_rules_on_delete:                "" => "false"
-    vpc_id:                                "" => "vpc-4e904735"
-  aws_security_group.ssh: Creating...
-    description:                           "" => "Used in a terraform exercise"
-    egress.#:                              "" => "1"
-    egress.482069346.cidr_blocks.#:        "" => "1"
-    egress.482069346.cidr_blocks.0:        "" => "0.0.0.0/0"
-    egress.482069346.description:          "" => ""
-    egress.482069346.from_port:            "" => "0"
-    egress.482069346.ipv6_cidr_blocks.#:   "" => "0"
-    egress.482069346.prefix_list_ids.#:    "" => "0"
-    egress.482069346.protocol:             "" => "-1"
-    egress.482069346.security_groups.#:    "" => "0"
-    egress.482069346.self:                 "" => "false"
-    egress.482069346.to_port:              "" => "0"
-    ingress.#:                             "" => "1"
-    ingress.2541437006.cidr_blocks.#:      "" => "1"
-    ingress.2541437006.cidr_blocks.0:      "" => "0.0.0.0/0"
-    ingress.2541437006.description:        "" => ""
-    ingress.2541437006.from_port:          "" => "22"
-    ingress.2541437006.ipv6_cidr_blocks.#: "" => "0"
-    ingress.2541437006.protocol:           "" => "tcp"
-    ingress.2541437006.security_groups.#:  "" => "0"
-    ingress.2541437006.self:               "" => "false"
-    ingress.2541437006.to_port:            "" => "22"
-    name:                                  "" => "learn_chef_ssh"
-    owner_id:                              "" => "<computed>"
-    revoke_rules_on_delete:                "" => "false"
-    vpc_id:                                "" => "vpc-4e904735"
-  aws_internet_gateway.default: Creation complete after 2s (ID: igw-ef07f497)
-  aws_route.internet_access: Creating...
-    destination_cidr_block:     "" => "0.0.0.0/0"
-    destination_prefix_list_id: "" => "<computed>"
-    egress_only_gateway_id:     "" => "<computed>"
-    gateway_id:                 "" => "igw-ef07f497"
-    instance_id:                "" => "<computed>"
-    instance_owner_id:          "" => "<computed>"
-    nat_gateway_id:             "" => "<computed>"
-    network_interface_id:       "" => "<computed>"
-    origin:                     "" => "<computed>"
-    route_table_id:             "" => "rtb-039e607f"
-    state:                      "" => "<computed>"
-  aws_subnet.private: Creation complete after 2s (ID: subnet-ee172c8a)
-  aws_route.internet_access: Creation complete after 0s (ID: r-rtb-039e607f1080289494)
-  aws_subnet.public: Creation complete after 2s (ID: subnet-170e3573)
-  aws_security_group.ssh: Creation complete after 3s (ID: sg-d19c9da6)
-  aws_instance.database: Creating...
-    ami:                          "" => "ami-d5d7ffae"
-    associate_public_ip_address:  "" => "<computed>"
-    availability_zone:            "" => "us-east-1a"
-    ebs_block_device.#:           "" => "<computed>"
-    ephemeral_block_device.#:     "" => "<computed>"
-    instance_state:               "" => "<computed>"
-    instance_type:                "" => "t1.micro"
-    ipv6_address_count:           "" => "<computed>"
-    ipv6_addresses.#:             "" => "<computed>"
-    key_name:                     "" => "<computed>"
-    network_interface.#:          "" => "<computed>"
-    network_interface_id:         "" => "<computed>"
-    placement_group:              "" => "<computed>"
-    primary_network_interface_id: "" => "<computed>"
-    private_dns:                  "" => "<computed>"
-    private_ip:                   "" => "<computed>"
-    public_dns:                   "" => "<computed>"
-    public_ip:                    "" => "<computed>"
-    root_block_device.#:          "" => "<computed>"
-    security_groups.#:            "" => "1"
-    security_groups.2586951444:   "" => "sg-d19c9da6"
-    source_dest_check:            "" => "true"
-    subnet_id:                    "" => "subnet-ee172c8a"
-    tags.%:                       "" => "1"
-    tags.Name:                    "" => "datase"
-    tenancy:                      "" => "<computed>"
-    volume_tags.%:                "" => "<computed>"
-    vpc_security_group_ids.#:     "" => "<computed>"
-  aws_security_group.web: Creation complete after 3s (ID: sg-9f9b9ae8)
-  aws_instance.webserver: Creating...
-    ami:                          "" => "ami-d5d7ffae"
-    associate_public_ip_address:  "" => "<computed>"
-    availability_zone:            "" => "us-east-1a"
-    ebs_block_device.#:           "" => "<computed>"
-    ephemeral_block_device.#:     "" => "<computed>"
-    instance_state:               "" => "<computed>"
-    instance_type:                "" => "t1.micro"
-    ipv6_address_count:           "" => "<computed>"
-    ipv6_addresses.#:             "" => "<computed>"
-    key_name:                     "" => "<computed>"
-    network_interface.#:          "" => "<computed>"
-    network_interface_id:         "" => "<computed>"
-    placement_group:              "" => "<computed>"
-    primary_network_interface_id: "" => "<computed>"
-    private_dns:                  "" => "<computed>"
-    private_ip:                   "" => "<computed>"
-    public_dns:                   "" => "<computed>"
-    public_ip:                    "" => "<computed>"
-    root_block_device.#:          "" => "<computed>"
-    security_groups.#:            "" => "2"
-    security_groups.169839970:    "" => "sg-9f9b9ae8"
-    security_groups.2586951444:   "" => "sg-d19c9da6"
-    source_dest_check:            "" => "true"
-    subnet_id:                    "" => "subnet-170e3573"
-    tags.%:                       "" => "1"
-    tags.Name:                    "" => "webserver"
-    tenancy:                      "" => "<computed>"
-    volume_tags.%:                "" => "<computed>"
-    vpc_security_group_ids.#:     "" => "<computed>"
-  aws_instance.database: Still creating... (10s elapsed)
-  aws_instance.webserver: Still creating... (10s elapsed)
-  aws_instance.database: Creation complete after 18s (ID: i-05617ff5e510454a5)
-  aws_instance.webserver: Still creating... (20s elapsed)
-  aws_instance.webserver: Creation complete after 23s (ID: i-05121225e94646a2b)
 
-  Apply complete! Resources: 9 added, 0 changed, 0 destroyed.
+  [...]
+
+  Apply complete! Resources: 10 added, 0 changed, 0 destroyed.
 
   Outputs:
 
-  ec2_instance.database = i-01053bc7abd6c9da3
-  ec2_instance.database.Name = database
+  ec2_instance.database = i-027f44ba53fc8f37e
+  ec2_instance.database.name = database
   ec2_instance.database.ami = ami-d5d7ffae
   ec2_instance.database.instance_type = t1.micro
-  ec2_instance.webserver = i-05121225e94646a2b
+  ec2_instance.database.private_ip = 10.0.100.175
+  ec2_instance.webserver = i-004807f12125d2437
   ec2_instance.webserver.ami = ami-d5d7ffae
   ec2_instance.webserver.instance_type = t1.micro
   ec2_instance.webserver.name = webserver
-  ec2_instance.webserver.public_ip = 34.205.39.217
-  route.internet_access.id = r-rtb-fe758b821080289494
-  security_group.ssh.id = sg-42bfbc35
-  security_group.web.id = sg-e8b6b59f
-  subnet.private.id = subnet-fcdce798
-  subnet.public.id = subnet-21c8f345
-  vpc.id = vpc-2300d758
+  ec2_instance.webserver.public_ip = 35.153.60.86
+  route.internet_access.id = r-rtb-c7f40cbb1080289494
+  security_group.ssh.id = sg-36d3dd41
+  security_group.web.id = sg-b5eee0c2
+  subnet.private.id = subnet-7d447e19
+  subnet.public.id = subnet-6d417b09
+  vpc.id = vpc-6c65b317
 ```
 
 The terraform plan finishes deployment and reports the resources that it has created.
 
 Run the `plan` subcommand.
 
-
 ```shell
-THIS OUTPUT WAS SUPPOSE TO SHOW THAT THE CURRENT STATE WAS THE SAME SO NO ACTION
-WOULD BE TAKEN IF APPLIED. I AM SEEING THAT IT WILL RECREATE PORTIONS OF THE PLAN.
+$ terraform apply
+aws_vpc.default: Refreshing state... (ID: vpc-6c65b317)
+aws_security_group.ssh: Refreshing state... (ID: sg-36d3dd41)
+aws_security_group.web: Refreshing state... (ID: sg-b5eee0c2)
+aws_subnet.public: Refreshing state... (ID: subnet-6d417b09)
+aws_subnet.private: Refreshing state... (ID: subnet-7d447e19)
+aws_internet_gateway.default: Refreshing state... (ID: igw-34e8154c)
+aws_security_group.mysql: Refreshing state... (ID: sg-8bd1dffc)
+aws_route.internet_access: Refreshing state... (ID: r-rtb-c7f40cbb1080289494)
+aws_instance.webserver: Refreshing state... (ID: i-004807f12125d2437)
+aws_instance.database: Refreshing state... (ID: i-027f44ba53fc8f37e)
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+ec2_instance.database = i-027f44ba53fc8f37e
+ec2_instance.database.name = database
+ec2_instance.database.ami = ami-d5d7ffae
+ec2_instance.database.instance_type = t1.micro
+ec2_instance.database.private_ip = 10.0.100.175
+ec2_instance.webserver = i-004807f12125d2437
+ec2_instance.webserver.ami = ami-d5d7ffae
+ec2_instance.webserver.instance_type = t1.micro
+ec2_instance.webserver.name = webserver
+ec2_instance.webserver.public_ip = 35.153.60.86
+route.internet_access.id = r-rtb-c7f40cbb1080289494
+security_group.ssh.id = sg-36d3dd41
+security_group.web.id = sg-b5eee0c2
+subnet.private.id = subnet-7d447e19
+subnet.public.id = subnet-6d417b09
+vpc.id = vpc-6c65b317
 ```
 
 Recall that when you ran the `plan` subcommand it displayed a list of resources that it would create for you. Now Terraform will evaluate the requirements of the plan against the current state of the application.
@@ -683,21 +202,22 @@ Run the `output` subcommand.
 
 ```shell
 $ terraform output
-ec2_instance.database = i-01053bc7abd6c9da3
-ec2_instance.database.Name = database
+ec2_instance.database = i-027f44ba53fc8f37e
+ec2_instance.database.name = database
 ec2_instance.database.ami = ami-d5d7ffae
 ec2_instance.database.instance_type = t1.micro
-ec2_instance.webserver = i-05121225e94646a2b
+ec2_instance.database.private_ip = 10.0.100.175
+ec2_instance.webserver = i-004807f12125d2437
 ec2_instance.webserver.ami = ami-d5d7ffae
 ec2_instance.webserver.instance_type = t1.micro
 ec2_instance.webserver.name = webserver
-ec2_instance.webserver.public_ip = 34.205.39.217
-route.internet_access.id = r-rtb-fe758b821080289494
-security_group.ssh.id = sg-42bfbc35
-security_group.web.id = sg-e8b6b59f
-subnet.private.id = subnet-fcdce798
-subnet.public.id = subnet-21c8f345
-vpc.id = vpc-2300d758
+ec2_instance.webserver.public_ip = 35.153.60.86
+route.internet_access.id = r-rtb-c7f40cbb1080289494
+security_group.ssh.id = sg-36d3dd41
+security_group.web.id = sg-b5eee0c2
+subnet.private.id = subnet-7d447e19
+subnet.public.id = subnet-6d417b09
+vpc.id = vpc-6c65b317
 ```
 
 This displays the output values from the application that was created. Time to write a control that ensures that this webserver and the database are running:
@@ -711,7 +231,7 @@ describe aws_ec2_instance(name: 'webserver') do
   it { should be_running }
 end
 
-describe aws_ec2_instance('i-05617ff5e510454a5') do
+describe aws_ec2_instance('i-027f44ba53fc8f37e') do
   it { should be_running }
 end
 ```
@@ -729,7 +249,7 @@ Profile: InSpec Profile (training-aws-security)
 Version: 0.1.0
 Target:  aws://us-east-1
 
-  EC2 Instance i-05121225e94646a2b
+  EC2 Instance webserver
      ✔  should be running
   EC2 Instance i-01053bc7abd6c9da3
      ✔  should be running
@@ -741,7 +261,7 @@ The results of the scan show that the two instances are running.
 
 Asserting that the instance is running is a great start but it does not ensure that it was built from the correct image and running on the correct size instance.
 
-This instance in us-east-1 is using the AMI with the id `ami-d5d7ffae` and for the size `t1.micro`. Note these values are defined in the terraform plan and appeared in the terraform output.
+This instance in us-east-1 is using the AMI with the id `ami-d5d7ffae` and for the size `t1.micro`. Note: these values are defined in the terraform plan and appeared when you ran `terraform output`
 
 Update the control defined to include tests to verify the instance AMI and type.
 
@@ -772,7 +292,6 @@ describe aws_ec2_instance(name: 'webserver') do
   its('vpc_id') { should eq 'vpc-2300d758' }
 end
 
-# Database
 describe aws_ec2_instance(name: 'database') do
   it { should be_running }
   its('image_id') { should eq 'ami-d5d7ffae' }
@@ -780,7 +299,7 @@ describe aws_ec2_instance(name: 'database') do
   its('vpc_id') { should eq 'vpc-2300d758' }
 end
 
-describe aws_vpc(aws_ec2_instance(name: 'webserver').vpc_id) do
+describe aws_vpc('vpc-2300d758') do
   its('state') { should eq 'available' }
   its('cidr_block') { should eq '10.0.0.0/16' }
 end
@@ -797,7 +316,6 @@ describe aws_ec2_instance(name: 'webserver') do
   its('subnet_id') { should eq 'subnet-21c8f345' }
 end
 
-# Database
 describe aws_ec2_instance(name: 'database') do
   it { should be_running }
   its('image_id') { should eq 'ami-d5d7ffae' }
@@ -806,20 +324,27 @@ describe aws_ec2_instance(name: 'database') do
   its('subnet_id') { should eq 'subnet-fcdce798' }
 end
 
-describe aws_vpc(aws_ec2_instance(name: 'webserver').vpc_id) do
+describe aws_vpc('vpc-2300d758') do
   its('state') { should eq 'available' }
   its('cidr_block') { should eq '10.0.0.0/16' }
 end
 
-describe aws_subnet(aws_ec2_instance(name: 'webserver').subnet_id) do
+describe aws_subnet('subnet-6d417b09') do
   it { should exist }
-  its('vpc_id') { should eq aws_ec2_instance(name: 'webserver').vpc_id }
+  its('vpc_id') { should eq 'vpc-6c65b317' }
   its('cidr_block') { should cmp '10.0.1.0/24' }
+  its('availability_zone') { should eq 'us-east-1a' }
+end
+
+describe aws_subnet('subnet-7d447e19') do
+  it { should exist }
+  its('vpc_id') { should eq 'vpc-6c65b317' }
+  its('cidr_block') { should cmp '10.0.100.0/24' }
   its('availability_zone') { should eq 'us-east-1a' }
 end
 ```
 
-This instance was created in a security group. An instance can belong to one or more security groups. A security group places a firewall around the instance ensuring that the only the desired inbound/outbound requests reach the instance. At the moment we can ensure the existence of this security group but cannot determine the inbound/ingress and outbound/egress rules. A later version of InSpec will deliver the feature.
+These instances were created in various security groups. An instance can belong to one or more security groups. A security group places a firewall around the instance ensuring that the only the desired inbound/outbound requests reach the instance. At the moment we can ensure the existence of this security group but cannot determine the inbound/ingress and outbound/egress rules. A later version of InSpec will deliver the feature.
 
 ```ruby
 describe aws_ec2_instance(name: 'webserver') do
@@ -831,7 +356,6 @@ describe aws_ec2_instance(name: 'webserver') do
   its('security_group_ids') { should cmp ["sg-42bfbc35", "sg-e8b6b59f"] }
 end
 
-# Database
 describe aws_ec2_instance(name: 'database') do
   it { should be_running }
   its('image_id') { should eq 'ami-d5d7ffae' }
@@ -852,11 +376,24 @@ describe aws_subnet('subnet-03132867') do
   its('cidr_block') { should eq '10.0.0.0/24' }
   its('availability_zone') { should eq 'us-east-1a' }
 end
+
+describe aws_security_group('sg-b5eee0c2') do
+  it { should exist }
+  # TODO: Add security_group ingress/egress rules (when developed)
+end
+
+describe aws_security_group('sg-36d3dd41') do
+  it { should exist }
+  # TODO: Add security_group ingress/egress rules (when developed)
+end
+
+describe aws_security_group('sg-8bd1dffc') do
+  it { should exist }
+  # TODO: Add security_group ingress/egress rules (when developed)
+end
 ```
 
-# TODO: Add an S3 Bucket with correct permissions
-# TODO: Add security_group ingress/egress rules (when developed)
-
+Now you have a profile for this instance of your infrastructure.
 
 ## Refactor to have dynamic values with attributes.
 
@@ -871,36 +408,38 @@ InSpec profiles provide support for attributes to be provided during the time of
 Run the `output` subcommand again but this time converting the format to YAML.
 
 ```shell
-$ echo ${$(terraform output)/=/:}
+$ echo "${$(terraform output)//=/:}"
 ec2_instance_alpha : i-05121225e94646a2b
 ```
 
 Save it to a file.
 
 ```shell
-$ echo ${$(terraform output)/=/:} > attributes.yml
+$ echo "${$(terraform output)//=/:}" > attributes.yml
 ```
 
 Now define the attributes within the control file and replace the hard-coded value with the value defined in the attribute.
 
 ```ruby
+webserver_id = attribute('ec2_instance.webserver', description: 'webserver id')
 
-alpha_instance = attributes('ec2_instance_alpha', description: 'The first instance')
-
-control 'aws-instance' do
-  describe aws_ec2_instance(alpha_instance) do
-    it { should be_running }
-    its('image_id') { should eq 'ami-d5d7ffae' }
-  end
+describe aws_ec2_instance(webserver_id) do
+  it { should be_running }
+  its('image_id') { should eq 'ami-d5d7ffae' }
+  its('instance_type') { should eq 't1.micro' }
+  its('vpc_id') { should eq 'vpc-6c65b317' }
+  its('subnet_id') { should eq 'subnet-6d417b09' }
+  its('security_group_ids') { should cmp ["sg-b5eee0c2", "sg-36d3dd41"] }
 end
 ```
+
+The remaining attributes defined in the `attributes.yml` would need to become attributes within this control file.
 
 ### Profile Files
 
 [Reference](https://github.com/chris-rock/inspec-verify-provision/tree/master/terraform/)
 
 For long standing applications/environments built with terraform you will likely want to permanently add the output values to the profile itself. This is best done by capturing the Terraform output and then adding that content as a profile files.
-
 
 Recall that profile files are stored in the `files` sub-directory within a project. A profile file can be any particular format. Create the `files` sub-directory within the profile.
 
@@ -913,11 +452,11 @@ While we could export the content again from the Terraform output to YAML, this 
 ```shell
 $ terraform output --json
 {
-    "ec2_instance_alpha": {
-        "sensitive": false,
-        "type": "string",
-        "value": "i-05121225e94646a2b"
-    }
+  "ec2_instance.webserver": {
+      "sensitive": false,
+      "type": "string",
+      "value": "i-004807f12125d2437"
+  }
 }
 ```
 
@@ -935,15 +474,16 @@ Load this data within the control file.
 content = inspec.profile.file("terraform.json")
 params = JSON.parse(content)
 
-# store vpc in variable
-alpha_instance = params['ec2_instance_alpha']['value']
+webserver_id = params['ec2_instance.webserver']['value']
 
-control 'aws-instance' do
-  describe aws_ec2_instance(alpha_instance) do
-    it { should be_running }
-    its(:image_id) { should eq 'ami-d5d7ffae' }
-  end
+describe aws_ec2_instance(webserver_id) do
+  it { should be_running }
+  its('image_id') { should eq 'ami-d5d7ffae' }
+  its('instance_type') { should eq 't1.micro' }
+  its('vpc_id') { should eq 'vpc-6c65b317' }
+  its('subnet_id') { should eq 'subnet-6d417b09' }
+  its('security_group_ids') { should cmp ["sg-b5eee0c2", "sg-36d3dd41"] }
 end
 ```
 
-The content is loaded through the `inspec.profile.file` method. This content is a string that contains the JSON content. Ruby's JSON parser will convert the string content into Hash object. The structure of the content can then be accessed through the keys that are defined.
+The content is loaded through the `inspec.profile.file` method. This content is a String that contains the JSON content. Ruby's JSON parser will convert the string content into Hash object. The structure of the content can then be accessed through the keys that are defined.

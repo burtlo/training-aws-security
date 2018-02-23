@@ -1,9 +1,12 @@
+#
+# VARIABLES
+#
+
 variable "aws_region" {
   description = "AWS region to launch servers."
   # This value is being hard-coded to this region. I believe it could be specified at run-time or at some other point. I haven't spent much time with the variables yet to know all the details.
   default     = "us-east-1"
 }
-
 
 variable "aws_amis" {
   default = {
@@ -18,6 +21,10 @@ variable "aws_availability_zone" {
     # zone that did not have access to t1.micros.
     default = "us-east-1a"
 }
+
+#
+# OUTPUT
+#
 
 # webserver details
 
@@ -43,7 +50,7 @@ output "ec2_instance.webserver.public_ip" {
 
 # database details
 
-output "ec2_instance.database.Name" {
+output "ec2_instance.database.name" {
   value = "${aws_instance.database.tags.Name}"
 }
 
@@ -57,6 +64,10 @@ output "ec2_instance.database.ami" {
 
 output "ec2_instance.database.instance_type" {
   value = "${aws_instance.database.instance_type}"
+}
+
+output "ec2_instance.database.private_ip" {
+  value = "${aws_instance.database.private_ip}"
 }
 
 # networking details
@@ -77,6 +88,10 @@ output "security_group.web.id" {
   value = "${aws_security_group.web.id}"
 }
 
+output "security_group.mysql.id" {
+  value = "${aws_security_group.mysql.id}"
+}
+
 output "security_group.ssh.id" {
   value = "${aws_security_group.ssh.id}"
 }
@@ -85,27 +100,59 @@ output "route.internet_access.id" {
   value = "${aws_route.internet_access.id}"
 }
 
+#
 # Creation
+#
+
+# instances
 
 resource "aws_instance" "webserver" {
   ami           = "${lookup(var.aws_amis, var.aws_region)}"
   instance_type = "t1.micro"
-  security_groups = ["${aws_security_group.ssh.id}", "${aws_security_group.web.id}"]
+  vpc_security_group_ids = ["${aws_security_group.ssh.id}", "${aws_security_group.web.id}"]
   subnet_id = "${aws_subnet.public.id}"
   availability_zone = "${var.aws_availability_zone}"
   tags {
     Name = "webserver"
   }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo yum -y install nginx && sudo service nginx start",
+      "sudo yum -y install mysql"
+    ]
+
+    connection {
+      user = "chef"
+      password = "Cod3Can!"
+    }
+  }
 }
+
 
 resource "aws_instance" "database" {
   ami           = "${lookup(var.aws_amis, var.aws_region)}"
   instance_type = "t1.micro"
-  security_groups = ["${aws_security_group.ssh.id}"]
+  vpc_security_group_ids = ["${aws_security_group.ssh.id}", "${aws_security_group.mysql.id}"]
   subnet_id = "${aws_subnet.private.id}"
   availability_zone = "${var.aws_availability_zone}"
   tags {
     Name = "database"
+  }
+
+  # The command to grant the remote access these hard coded CIDR range.
+  # I would need to change it to use the defined subnet range but convert to
+  # this format: 10.0.1.%
+  provisioner "remote-exec" {
+    inline = [
+      "sudo yum -y install mysql-server && sudo service mysqld start",
+      "mysql -u root -e 'GRANT ALL ON *.* TO \"root\"@\"10.0.1.%\"'"
+    ]
+
+    connection {
+      user = "chef"
+      password = "Cod3Can!"
+    }
   }
 }
 
@@ -133,29 +180,11 @@ resource "aws_subnet" "public" {
 resource "aws_subnet" "private" {
   vpc_id                  = "${aws_vpc.default.id}"
   cidr_block              = "10.0.100.0/24"
+  # Ideally this would be a private ip address but I cannot install
+  # software on it and configure it.
+  # To fix that
+  map_public_ip_on_launch = true
   availability_zone = "${var.aws_availability_zone}"
-}
-
-resource "aws_security_group" "web" {
-  name        = "learn_chef_web"
-  description = "Used in a terraform exercise"
-  vpc_id      = "${aws_vpc.default.id}"
-
-  # HTTP access from the VPC
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/16"]
-  }
-
-  # outbound internet access
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 }
 
 resource "aws_security_group" "ssh" {
@@ -169,6 +198,57 @@ resource "aws_security_group" "ssh" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # outbound internet access
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "web" {
+  name        = "learn_chef_web"
+  description = "Used in a terraform exercise"
+  vpc_id      = "${aws_vpc.default.id}"
+
+  # Allow inbound HTTP connection from all
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # outbound internet access
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "mysql" {
+  name        = "learn_chef_mysql"
+  description = "Used in a terraform exercise"
+  vpc_id      = "${aws_vpc.default.id}"
+
+  # Allow inbound HTTP connection from all
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.1.0/24"]
+  }
+
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.100.0/24"]
   }
 
   # outbound internet access

@@ -1,0 +1,82 @@
+{
+    "ec2_instance.database": {
+        "sensitive": false,
+        "type": "string",
+        "value": "i-027f44ba53fc8f37e"
+    },
+    "ec2_instance.database.Name": {
+        "sensitive": false,
+        "type": "string",
+        "value": "database"
+    },
+    "ec2_instance.database.ami": {
+        "sensitive": false,
+        "type": "string",
+        "value": "ami-d5d7ffae"
+    },
+    "ec2_instance.database.instance_type": {
+        "sensitive": false,
+        "type": "string",
+        "value": "t1.micro"
+    },
+    "ec2_instance.database.private_ip": {
+        "sensitive": false,
+        "type": "string",
+        "value": "10.0.100.175"
+    },
+    "ec2_instance.webserver": {
+        "sensitive": false,
+        "type": "string",
+        "value": "i-004807f12125d2437"
+    },
+    "ec2_instance.webserver.ami": {
+        "sensitive": false,
+        "type": "string",
+        "value": "ami-d5d7ffae"
+    },
+    "ec2_instance.webserver.instance_type": {
+        "sensitive": false,
+        "type": "string",
+        "value": "t1.micro"
+    },
+    "ec2_instance.webserver.name": {
+        "sensitive": false,
+        "type": "string",
+        "value": "webserver"
+    },
+    "ec2_instance.webserver.public_ip": {
+        "sensitive": false,
+        "type": "string",
+        "value": "35.153.60.86"
+    },
+    "route.internet_access.id": {
+        "sensitive": false,
+        "type": "string",
+        "value": "r-rtb-c7f40cbb1080289494"
+    },
+    "security_group.ssh.id": {
+        "sensitive": false,
+        "type": "string",
+        "value": "sg-36d3dd41"
+    },
+    "security_group.web.id": {
+        "sensitive": false,
+        "type": "string",
+        "value": "sg-b5eee0c2"
+    },
+    "subnet.private.id": {
+        "sensitive": false,
+        "type": "string",
+        "value": "subnet-7d447e19"
+    },
+    "subnet.public.id": {
+        "sensitive": false,
+        "type": "string",
+        "value": "subnet-6d417b09"
+    },
+    "vpc.id": {
+        "sensitive": false,
+        "type": "string",
+        "value": "vpc-6c65b317"
+    }
+}
